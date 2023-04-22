@@ -7,6 +7,7 @@ import sys
 
 node_info_set = set()
 nodes_unavailable_set = set()
+GITOID_PREFIX = "gitoid:blob:sha1:"
 
 def get_sha1(filename):
     sha1 = hashlib.sha1()
@@ -20,12 +21,16 @@ def get_sha1(filename):
 
 
 def get_dependencies(module_path):
+    # the next two lines add the gitoid for the entry point
+    gitoid = GITOID_PREFIX + get_sha1(module_path)
+    node_info_set.add("leaf: " + os.path.basename(module_path) + " " + gitoid)
+    # this adds the .pyc file(s)
     if os.path.exists("./__pycache__"):
         pyc_files = glob.glob("." + '/**/*.pyc')
         for f in pyc_files:
-            gitoid = "gitoid:blob:sha1:" + get_sha1(f)
+            gitoid = GITOID_PREFIX + get_sha1(f)
             node_info_set.add("node: " + f + " " + gitoid)
-
+    # and this add everything else
     get_sub_dependencies(module_path)
     return node_info_set
         
@@ -44,11 +49,11 @@ def get_sub_dependencies(module_path):
                     imp_name = importlib.import_module(module.name)
                     filename = os.path.basename(imp_name.__file__)
                     hash = get_sha1(imp_name.__file__) 
-                    gitoid = "gitoid:blob:sha1:"+hash
+                    gitoid = GITOID_PREFIX + hash
                     node_info_set.add("leaf: " + filename + " " + gitoid)
                     # for sub modules
                     if imp_name.__file__.endswith('.py'):
-                        return get_dependencies(imp_name.__file__)
+                        return get_sub_dependencies(imp_name.__file__)
                     #else get the hash of the pyd et al file
                 except:
                     #Need to handle the case where a module is unavailable
