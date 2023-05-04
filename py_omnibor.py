@@ -41,7 +41,7 @@ def get_imported_modules(entry_point):
                 pass
             for name, obj in inspect.getmembers(module):
                 if inspect.ismodule(obj):
-                    print(f' {GITOID_PREFIX}{os.path.basename(file_path)}:{hex_dig}')
+                    #print(f' {GITOID_PREFIX}{os.path.basename(file_path)}:{hex_dig}')
                     gitoid = obj
                     if not obj.__name__.startswith('builtins'):
                         gitoid = f' {GITOID_PREFIX}{os.path.basename(file_path)}:{hex_dig}'
@@ -68,6 +68,7 @@ def main():
 
     modules = get_imported_modules(args.entry_point)
     write_manifest(modules)
+    print(f"Done. Check {OUT_FILE_NAME} for output")
 
 
 if __name__ == '__main__':
