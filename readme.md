@@ -16,6 +16,7 @@ This will add the manifest to the .pyc file. This feature, at this time, is deba
 * A four-byte magic number,  
 * A four-byte modification timestamp, and  
 * A marshalled code object.  
+
 I have tested adding the manifest using Python version 3.8.10 on both Windows and Ubuntu. I was able to run the modified pyc files. However, there is no guarantee this will work on future (or even older versions) of Python as doing so is undefined.  
 
 Output written to OmniBor.sha1 looks like:  
