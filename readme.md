@@ -1,4 +1,6 @@
 
+This PoC is designed to demonstrate how [OmniBOR](https://omnibor.io/) identifiers can be generated to build a manifest of a Python program and all its dependencies. 
+
 This uses the Python inspect library to get information about live modules. It is designed to tell you what modules (and dependencies) are being imported by the target. It runs the target and then inspects the loaded modules.  This is a beta PoC release.  
 
 Currently, it gets the Sha1. Sha256 is coming soon.  
