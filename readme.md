@@ -18,6 +18,7 @@ This will append the manifest to the .pyc file. This feature, at this time, is d
 * A four-byte magic number,  
 * A four-byte modification timestamp, and  
 * A marshalled code object.  
+**Caveat:** The --append-manifest option also has the side effect of changing the Sha1 of the pyc file.  
 
 I have tested adding the manifest using Python version 3.8.10 on both Windows and Ubuntu. I was able to run the modified pyc files. However, there is no guarantee this will work on future (or even older versions) of Python as doing so is undefined.  
 
@@ -26,6 +27,7 @@ gitoid:blob:sha1:sre_compile.py:73f19a12862e1fb633e6e99444d23cd1bcd9b54f
 gitoid:blob:sha1:enum.py:55e688744867714deffaec691627fdb6094384fc
 
 Note: test_2.py requires the "requests" library. Doing so is optional but you will get more results if you include it. py_omnibor will let you know that something has not been included.  
+
 
 Author: Robert Marion  
 Date: May 2023  
