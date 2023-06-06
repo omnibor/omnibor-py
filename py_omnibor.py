@@ -73,8 +73,8 @@ def get_pyc_file_name_hash(target_file):
                 content = file.read()
                 hash_object = hashlib.sha1(content)
                 hex_dig = hash_object.hexdigest()
-                break
-    return (f' {GITOID_PREFIX}{os.path.basename(file_path)}:{hex_dig}')
+                return(f' {GITOID_PREFIX}{os.path.basename(file_path)}:{hex_dig}')
+    return("")
                 
 
 def write_manifest(deps):
@@ -98,8 +98,9 @@ def experiment_write_to_pyc(deps, target_file):
         file_prefix = os.path.splitext(target_file)[0]
         if file.startswith(file_prefix) and file.endswith('.pyc'):
             file_path = os.path.join(subdirectory, file)
-            with open(file_path, 'r') as file:
+            with open(file_path, 'rb') as file:
                 content = file.read()
+                content = str(content)
                 omnibor = content.find("BEGIN OMNIBOR==")
             # if gitoids already written to file, do not overwrite    
             if omnibor == -1:
@@ -108,8 +109,6 @@ def experiment_write_to_pyc(deps, target_file):
                     file.write(deps.replace(',', '\n'))
                     file.write("\nEND OMNIBOR==")
                 break
-        else:
-            print("File not found.")
 
 def main():
     parser = argparse.ArgumentParser(description='Retrieve imported modules with file paths and SHA1 hashes.')
